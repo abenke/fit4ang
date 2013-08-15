@@ -1,0 +1,19 @@
+<input type="text" ng-model="search" class="search-query" placeholder="Search">
+<table>
+  <thead>
+  <tr>
+    <th>Image</th>
+    <th>Equipment</th>
+    <th><a href="#/create/equipment"><i class="icon-plus-sign"></i></a></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in equipment | filter:search | orderBy:'description'">
+    <td><img ng-src="{{item.img}}"></td>
+    <td>{{item.description}}</td>
+    <td>
+      <a href="#/edit/equipment/{{equipment.$id}}"><i class="icon-pencil"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,9 @@
+{
+  "name": "angular-fire",
+  "version": "0.0.0",
+  "commit": "d0f0ddb16ec8e871a16d581aa48a00b7e9ad1769",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/firebase/angularFire.git"
+  }
+}

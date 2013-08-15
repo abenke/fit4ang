@@ -1,0 +1,23 @@
+<body ng-controller="MyController">
+  <span ng-show="user">
+    {{user.name}} | <a href="#" ng-click="logout()">Logout</a>
+  </span>
+  <a href="#" ng-hide="user" ng-click="login()">Login</a>
+  <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-resource.js"></script>
+  <script src="lib/angular-fire/angularFire.js"></script>
+  <script>
+    function MyController($scope, angularFireAuth) {
+      var url = "https://fit4.firebaseio.com/";
+      angularFireAuth.initialize(url, {scope: $scope, name: "user"});
+      $scope.login = function() {
+        angularFireAuth.login("facebook");
+      };
+      $scope.logout = function() {
+        angularFireAuth.logout();
+      };
+    }
+  </script>
+</body>
