@@ -92,7 +92,6 @@ function EquipCreateCtrl($scope, $location, $timeout, Equipment) {
   }
 }
 
-
 function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
   angularFire(fbURL + $routeParams.equipId, $scope, 'remote', {}).
   then(function() {
@@ -103,7 +102,7 @@ function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
     }
     $scope.destroy = function() {
       $scope.remote = null;
-      $location.path('/');
+      $location.path('/equipment');
     };
     $scope.save = function() {
       $scope.remote = angular.copy($scope.equipment);
@@ -112,21 +111,77 @@ function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
   });
 }
 
-function WorkoutCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + $routeParams.workoutId, $scope, 'remote', {}).
+// Exercises controllers
+
+function ExerciseViewCtrl($scope, Exercises, Equipment) {
+  $scope.exercise = Exercises;
+  $scope.equipment = Equipment; // exercises may depend on equipment
+}
+
+function ExerciseCreateCtrl($scope, $location, $timeout, Exercises) {
+  $scope.save = function() {
+    Exercises.add($scope.exercise, function() {
+      $timeout(function() { $location.path('/exercise'); });
+    });
+  }
+}
+
+function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
+  angularFire(fbURL + $routeParams.exerciseId, $scope, 'remote', {}).
   then(function() {
-    $scope.workout = angular.copy($scope.remote);
-    $scope.equipment.$id = $routeParams.equipId;
+    $scope.exercise = angular.copy($scope.remote);
+    $scope.exercise.$id = $routeParams.exerciseId;
+    $scope.isClean = function() {
+      return angular.equals($scope.remote, $scope.exercise);
+    }
+    $scope.destroy = function() {
+      $scope.remote = null;
+      $location.path('/exercise');
+    };
     $scope.save = function() {
-      $scope.remote = angular.copy($scope.workout);
-      $location.path('/workout'); // TODO make this "last" rather than specific url
+      $scope.remote = angular.copy($scope.exercise);
+      $location.path('/exercises'); // TODO make this "last" rather than specific url
+    };
+  });
+}
+
+
+// Workouts controllers (canned workouts)
+
+function WorkoutsViewCtrl($scope, Workouts) {
+  $scope.workouts = Workouts;
+}
+
+function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
+  $scope.save = function() {
+    Workouts.add($scope.workouts, function() {
+      $timeout(function() { $location.path('/workouts'); });
+    });
+  }
+}
+
+function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
+  angularFire(fbURL + $routeParams.workoutsId, $scope, 'remote', {}).
+  then(function() {
+    $scope.workouts = angular.copy($scope.remote);
+    $scope.workouts.$id = $routeParams.workoutsId;
+    $scope.isClean = function() {
+      return angular.equals($scope.remote, $scope.workouts);
+    }
+    $scope.destroy = function() {
+      $scope.remote = null;
+      $location.path('/workouts');
+    };
+    $scope.save = function() {
+      $scope.remote = angular.copy($scope.workouts);
+      $location.path('/workouts'); // TODO make this "last" rather than specific url
     };
   });
 }
 
 
 
-//temporarily hardcode the user id
+//temporarily hardcode the user id, wire up to auth later
 function UsersEditCtrl($scope, $location, angularFire, fbURL) {
   angularFire(fbURL + 'users/1', $scope, 'remote', {}).
 // function UsersEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
@@ -146,7 +201,7 @@ function UsersEditCtrl($scope, $location, angularFire, fbURL) {
   });
 }
 
-function WorkoutCtrl($scope, $location, angularFire, fbURL) {
+function DoWorkoutCtrl($scope, $location, angularFire, fbURL) {
   angularFire(fbURL + 'users/1', $scope, 'remote', {}).
   then(function() {
     $scope.user = angular.copy($scope.remote);
