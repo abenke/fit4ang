@@ -8,11 +8,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="item in equipment | filter:search | orderBy:'description'">
+  <tr ng-repeat="item in equipment | filter:search | orderBy:'name'">
     <td><img ng-src="{{item.img}}"></td>
-    <td>{{item.description}}</td>
+    <td>{{item.name}}</td>
     <td>
-      <a href="#/edit/equipment/{{equipment.$id}}"><i class="icon-pencil"></i></a>
+      <a href="#/edit/equipment/{{item.$id}}"><i class="icon-pencil"></i></a>
     </td>
   </tr>
   </tbody>

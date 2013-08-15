@@ -93,7 +93,7 @@ function EquipCreateCtrl($scope, $location, $timeout, Equipment) {
 }
 
 function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + $routeParams.equipId, $scope, 'remote', {}).
+  angularFire(fbURL + 'equipment/' + $routeParams.equipId, $scope, 'remote', {}).
   then(function() {
     $scope.equipment = angular.copy($scope.remote);
     $scope.equipment.$id = $routeParams.equipId;
@@ -127,7 +127,7 @@ function ExerciseCreateCtrl($scope, $location, $timeout, Exercises) {
 }
 
 function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + $routeParams.exerciseId, $scope, 'remote', {}).
+  angularFire(fbURL + 'exercises/' + $routeParams.exerciseId, $scope, 'remote', {}).
   then(function() {
     $scope.exercise = angular.copy($scope.remote);
     $scope.exercise.$id = $routeParams.exerciseId;
@@ -161,7 +161,7 @@ function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
 }
 
 function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + $routeParams.workoutsId, $scope, 'remote', {}).
+  angularFire(fbURL + 'workouts/' + $routeParams.workoutsId, $scope, 'remote', {}).
   then(function() {
     $scope.workouts = angular.copy($scope.remote);
     $scope.workouts.$id = $routeParams.workoutsId;
