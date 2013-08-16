@@ -3,7 +3,7 @@
 
 // App level module which depends on filters, and services
 
-angular.module('project', ['firebase',
+angular.module('project', ['firebase', 'ui.bootstrap',
 	'project.filters', 
 	'project.services', 
 	'project.directives']).

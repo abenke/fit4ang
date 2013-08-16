@@ -113,30 +113,33 @@ function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
 
 // Exercises controllers
 
-function ExerciseViewCtrl($scope, Exercises, Equipment) {
+function ExerciseViewCtrl($scope, Exercises) {
   $scope.exercise = Exercises;
-  $scope.equipment = Equipment; // exercises may depend on equipment
 }
 
-function ExerciseCreateCtrl($scope, $location, $timeout, Exercises) {
+function ExerciseCreateCtrl($scope, $location, $timeout, Equipment) {
+  $scope.equipment = Equipment;
   $scope.save = function() {
     Exercises.add($scope.exercise, function() {
-      $timeout(function() { $location.path('/exercise'); });
+      $timeout(function() { $location.path('/exercises'); });
     });
   }
 }
 
-function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
+function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL, Equipment) {
   angularFire(fbURL + 'exercises/' + $routeParams.exerciseId, $scope, 'remote', {}).
   then(function() {
+    $scope.equipment = Equipment;
+    console.log($scope.equipment);
     $scope.exercise = angular.copy($scope.remote);
     $scope.exercise.$id = $routeParams.exerciseId;
+    $scope.selectedEquipment = $scope.exercise.equipment;
     $scope.isClean = function() {
       return angular.equals($scope.remote, $scope.exercise);
     }
     $scope.destroy = function() {
       $scope.remote = null;
-      $location.path('/exercise');
+      $location.path('/exercises');
     };
     $scope.save = function() {
       $scope.remote = angular.copy($scope.exercise);
@@ -148,8 +151,9 @@ function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
 
 // Workouts controllers (canned workouts)
 
-function WorkoutsViewCtrl($scope, Workouts) {
+function WorkoutsViewCtrl($scope, Workouts, Exercises) {
   $scope.workouts = Workouts;
+  $scope.exercises = Exercises;  // workouts depend on exercises
 }
 
 function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
