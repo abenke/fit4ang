@@ -28,3 +28,12 @@
   content: "";
   padding: 0;
 }
+
+.width-200px{
+    width: 200px;
+    display: inline-block;
+}
+
+td.button-spaced{
+  padding:2px
+}

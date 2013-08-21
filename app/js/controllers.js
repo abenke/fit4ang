@@ -117,7 +117,7 @@ function ExerciseViewCtrl($scope, Exercises) {
   $scope.exercise = Exercises;
 }
 
-function ExerciseCreateCtrl($scope, $location, $timeout, Equipment) {
+function ExerciseCreateCtrl($scope, $location, $timeout, Exercises, Equipment) {
   $scope.equipment = Equipment;
   $scope.save = function() {
     Exercises.add($scope.exercise, function() {
@@ -130,10 +130,9 @@ function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL, E
   angularFire(fbURL + 'exercises/' + $routeParams.exerciseId, $scope, 'remote', {}).
   then(function() {
     $scope.equipment = Equipment;
-    console.log($scope.equipment);
+    //console.log($scope.equipment);
     $scope.exercise = angular.copy($scope.remote);
     $scope.exercise.$id = $routeParams.exerciseId;
-    $scope.selectedEquipment = $scope.exercise.equipment;
     $scope.isClean = function() {
       return angular.equals($scope.remote, $scope.exercise);
     }
@@ -151,9 +150,8 @@ function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL, E
 
 // Workouts controllers (canned workouts)
 
-function WorkoutsViewCtrl($scope, Workouts, Exercises) {
+function WorkoutsViewCtrl($scope, Workouts) {
   $scope.workouts = Workouts;
-  $scope.exercises = Exercises;  // workouts depend on exercises
 }
 
 function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
@@ -164,22 +162,46 @@ function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
   }
 }
 
-function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
+function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL, Exercises) {
   angularFire(fbURL + 'workouts/' + $routeParams.workoutsId, $scope, 'remote', {}).
   then(function() {
+    $scope.exercises = Exercises
     $scope.workouts = angular.copy($scope.remote);
     $scope.workouts.$id = $routeParams.workoutsId;
+    if(typeof $scope.workouts.routine === 'undefined') {
+      $scope.workouts.routine = {};
+      console.log('routine is null');
+    }
+    //$scope.workouts.routine = {"-J1664j1nLSnsoIi4K6S":true,"-J11F9TwX4-KW2l_oxN4":true, "-J1CXxf0LvtIiOEnuYbS":true};
+    $scope.$watch('workouts.routine', function() {
+      console.log($scope.workouts.routine);
+    });
+    $scope.test = function(input) {
+      console.log(input);
+    };
+    $scope.hasExercise = function(ex) {
+      console.log(ex + ' ' + typeof($scope.workouts.routine[ex]))
+      return typeof($scope.workouts.routine[ex]) != 'undefined' && $scope.workouts.routine[ex] != false;
+    }
     $scope.isClean = function() {
       return angular.equals($scope.remote, $scope.workouts);
-    }
+    };
     $scope.destroy = function() {
       $scope.remote = null;
       $location.path('/workouts');
     };
     $scope.save = function() {
+      // save exercises
+      //save order of exercises
       $scope.remote = angular.copy($scope.workouts);
       $location.path('/workouts'); // TODO make this "last" rather than specific url
     };
+    $scope.addExercise = function() {
+      // TODO: add here
+    };
+    $scope.removeExercise = function() {
+      // TODO
+    }
   });
 }
 

@@ -1,7 +1,7 @@
 <form name="myForm">
   <div class="control-group" ng-class="{error: myForm.name.$invalid}">
     <label>Workout Name</label>
-    <input type="text" name="name" ng-model="workout.name" required>
+    <input type="text" name="name" ng-model="workouts.name" required>
     <span ng-show="myForm.name.$error.required" class="help-inline">
         Required</span>
   </div>
@@ -10,6 +10,20 @@
   <textarea name="description" ng-model="workouts.description"></textarea>
  
   <br>
+  <label>Exercises</label>
+  <!--<pre>{{workouts}}</pre>-->
+  <span class='glyphicon glyphicon-check'></span>
+  <div class="btn-group">
+    <table><tr ng-repeat="e in exercises | orderBy:'name'">
+      <td><label><span ng-show='workouts.routine[e.$id]'><i class="icon-ok"></i> </span></label></td>
+      <td class="button-spaced">
+        <button type="button" class="btn btn-large btn-inverse width-200px" ng-model="workouts.routine[e.$id]" ng-click="test(e.$id);" btn-checkbox> {{e.name}} </button>
+      </td></tr>
+    </table>
+  </div>
+
+
+  <p></p>
   <a href="#/workouts" class="btn">Cancel</a>
   <button ng-click="save()" ng-disabled="isClean() || myForm.$invalid"
           class="btn btn-primary">Save</button>

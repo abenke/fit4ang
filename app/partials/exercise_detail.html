@@ -11,7 +11,7 @@
  
   <label>Equipment Needed</label>
 
-  <select ng-model="exercise.equipment" ng-options="item.$id as item.name for item in equipment"></select>
+  <select ng-model="exercise.equipment" ng-options="item.$id as item.name for item in equipment | orderBy:'name'"></select>
 
   <br>
   <a href="#/exercises" class="btn">Cancel</a>
