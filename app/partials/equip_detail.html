@@ -1,13 +1,13 @@
 <form name="myForm">
   <div class="control-group" ng-class="{error: myForm.name.$invalid}">
     <label>Name</label>
-    <input type="text" name="name" ng-model="equipment.name" required>
+    <input type="text" name="name" class="form-control" ng-model="equipment.name" required>
     <span ng-show="myForm.name.$error.required" class="help-inline">
         Required</span>
   </div>
  
   <br>
-  <a href="#/equipment" class="btn">Cancel</a>
+  <a href="#/equipment" class="btn btn-default">Cancel</a>
   <button ng-click="save()" ng-disabled="isClean() || myForm.$invalid"
           class="btn btn-primary">Save</button>
   <button ng-click="destroy()"

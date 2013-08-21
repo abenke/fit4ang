@@ -1,20 +1,20 @@
 <form name="myForm">
   <div class="control-group" ng-class="{error: myForm.name.$invalid}">
     <label>Exercise</label>
-    <input type="text" name="name" ng-model="exercise.name" required>
+    <input type="text" name="name" class="form-control" ng-model="exercise.name" required>
     <span ng-show="myForm.name.$error.required" class="help-inline">
         Required</span>
   </div>
  
   <label>Description</label>
-  <textarea name="description" ng-model="exercise.description"></textarea>
+  <textarea name="description" class="form-control" rows="3" ng-model="exercise.description"></textarea>
  
   <label>Equipment Needed</label>
 
-  <select ng-model="exercise.equipment" ng-options="item.$id as item.name for item in equipment | orderBy:'name'"></select>
+  <select class="form-control" ng-model="exercise.equipment" ng-options="item.$id as item.name for item in equipment | orderBy:'name'"></select>
 
   <br>
-  <a href="#/exercises" class="btn">Cancel</a>
+  <a href="#/exercises" class="btn btn-default">Cancel</a>
   <button ng-click="save()" ng-disabled="isClean() || myForm.$invalid"
           class="btn btn-primary">Save</button>
   <button ng-click="destroy()"

@@ -1,30 +1,28 @@
 <form name="myForm">
-  <div class="control-group" ng-class="{error: myForm.name.$invalid}">
-    <label>Workout Name</label>
-    <input type="text" name="name" ng-model="workouts.name" required>
+  <div class="form-group" ng-class="{error: myForm.name.$invalid}">
+    <label>Workout Name</label><br>
+    <input type="text" name="name" class="form-control" ng-model="workouts.name" required>
     <span ng-show="myForm.name.$error.required" class="help-inline">
         Required</span>
   </div>
  
-   <label>Details</label>
-  <textarea name="description" ng-model="workouts.description"></textarea>
+   <label>Details</label><br>
+  <textarea name="description" class="form-control" rows="3" ng-model="workouts.description"></textarea>
  
   <br>
-  <label>Exercises</label>
+  <label>Exercises</label><br>
   <!--<pre>{{workouts}}</pre>-->
-  <span class='glyphicon glyphicon-check'></span>
   <div class="btn-group">
     <table><tr ng-repeat="e in exercises | orderBy:'name'">
-      <td><label><span ng-show='workouts.routine[e.$id]'><i class="icon-ok"></i> </span></label></td>
       <td class="button-spaced">
-        <button type="button" class="btn btn-large btn-inverse width-200px" ng-model="workouts.routine[e.$id]" ng-click="test(e.$id);" btn-checkbox> {{e.name}} </button>
+        <button type="button" class="btn btn-lg btn-primary width-200px" ng-model="workouts.routine[e.$id]" ng-click="test(e.$id);" btn-checkbox> <span ng-show='workouts.routine[e.$id]'><span class="glyphicon glyphicon-ok"></span> </span> {{e.name}} </button>
       </td></tr>
     </table>
   </div>
 
 
   <p></p>
-  <a href="#/workouts" class="btn">Cancel</a>
+  <a href="#/workouts" class="btn btn-default">Cancel</a>
   <button ng-click="save()" ng-disabled="isClean() || myForm.$invalid"
           class="btn btn-primary">Save</button>
   <button ng-click="destroy()"

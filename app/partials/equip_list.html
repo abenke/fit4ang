@@ -1,10 +1,10 @@
-<input type="text" ng-model="search" class="search-query" placeholder="Search">
+<input type="text" ng-model="search" class="form-control" class="search-query" placeholder="Search">
 <table>
   <thead>
   <tr>
     <th>Image</th>
     <th>Equipment</th>
-    <th><a href="#/create/equipment"><i class="icon-plus-sign"></i></a></th>
+    <th><a href="#/create/equipment"><span class="glyphicon glyphicon-plus-sign"></span></a></th>
   </tr>
   </thead>
   <tbody>
@@ -12,7 +12,7 @@
     <td><img ng-src="{{item.img}}"></td>
     <td>{{item.name}}</td>
     <td>
-      <a href="#/edit/equipment/{{item.$id}}"><i class="icon-pencil"></i></a>
+      <a href="#/edit/equipment/{{item.$id}}"><span class="glyphicon glyphicon-pencil"></span></a>
     </td>
   </tr>
   </tbody>
