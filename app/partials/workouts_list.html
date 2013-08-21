@@ -8,9 +8,9 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="item in workouts | filter:search | orderBy:'description'">
+  <tr ng-repeat="item in workouts | filter:search | orderBy:'name'">
     <td><img ng-src="{{item.img}}"></td>
-    <td>{{item.description}}</td>
+    <td>{{item.name}}</td>
     <td>
       <a href="#/edit/workouts/{{item.$id}}"><span class="glyphicon glyphicon-pencil"></span></a>
     </td>

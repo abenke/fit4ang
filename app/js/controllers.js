@@ -208,11 +208,10 @@ function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL, E
 
 
 //temporarily hardcode the user id, wire up to auth later
-function UsersEditCtrl($scope, $location, angularFire, fbURL) {
-  angularFire(fbURL + 'users/1', $scope, 'remote', {}).
-// function UsersEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
+//function UsersEditCtrl($scope, $location, angularFire, fbURL) {
+function UsersEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
 //   angularFire(fbURL + 'users/' + $routeParams.userId, $scope, 'remote', {}).
-
+  angularFire(fbURL + 'users/1', $scope, 'remote', {}).
   then(function() {
     $scope.user = angular.copy($scope.remote);
     $scope.user.$id = 1;
