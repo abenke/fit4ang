@@ -6,22 +6,26 @@
 angular.module('project', ['firebase', 'ui.bootstrap',
 	'project.filters', 
 	'project.services', 
-	'project.directives']).
-  value('fbURL', 'https://fit4.firebaseio.com/').
-  factory('Projects', function(angularFireCollection, fbURL) {
-    return angularFireCollection(fbURL + 'projects/');
+	'project.directives',
+  'FIREBASE_URL']).
+  //value('fbURL', 'https://fit4.firebaseio.com/').
+  factory('Projects', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'projects/'));
   }).
-  factory('Users', function(angularFireCollection, fbURL) {
-    return angularFireCollection(fbURL + 'users/');
+  factory('Users', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'users/'));
   }).
-  factory('Equipment', function(angularFireCollection, fbURL) {
-    return angularFireCollection(fbURL + 'equipment/');
+  factory('Equipment', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'equipment/'));
   }).
-  factory('Exercises', function(angularFireCollection, fbURL) {
-    return angularFireCollection(fbURL + 'exercises/');
+  factory('Exercises', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'exercises/'));
   }).
-  factory('Workouts', function(angularFireCollection, fbURL) {
-    return angularFireCollection(fbURL + 'workouts/');
+  factory('Workouts', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'workouts/'));
+  }).
+  factory('WorkoutLog', function(angularFireCollection, FIREBASE_URL) {
+    return angularFireCollection(new Firebase(FIREBASE_URL + 'workoutlog/'));
   }).
   config(function($routeProvider) {
     $routeProvider.
@@ -38,7 +42,7 @@ angular.module('project', ['firebase', 'ui.bootstrap',
       when('/edit/exercise/:exerciseId', {templateUrl: 'partials/exercise_detail.html', controller: 'ExerciseEditCtrl'}).
       when('/create/workouts', {templateUrl: 'partials/workouts_detail.html', controller: 'WorkoutsCreateCtrl'}).
       when('/edit/workouts/:workoutsId', {templateUrl: 'partials/workouts_detail.html', controller: 'WorkoutsEditCtrl'}).
-      when('/workout', {controller:'DoWorkoutCtrl', templateUrl:'partials/doworkout.html'}).
+      when('/workout/:userId/:workoutId', {controller:'WorkoutLogCtrl', templateUrl:'partials/doworkout.html'}).
       otherwise({redirectTo:'/'});
   });
  

@@ -58,7 +58,7 @@ function CreateCtrl($scope, $location, $timeout, Projects) {
 
 
 function EditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + $routeParams.projectId, $scope, 'remote', {}).
+  angularFire(new Firebase(fbURL + $routeParams.projectId), $scope, 'remote', {}).
   then(function() {
     $scope.project = angular.copy($scope.remote);
     $scope.project.$id = $routeParams.projectId;
@@ -93,7 +93,7 @@ function EquipCreateCtrl($scope, $location, $timeout, Equipment) {
 }
 
 function EquipEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-  angularFire(fbURL + 'equipment/' + $routeParams.equipId, $scope, 'remote', {}).
+  angularFire(new Firebase(fbURL + 'equipment/' + $routeParams.equipId), $scope, 'remote', {}).
   then(function() {
     $scope.equipment = angular.copy($scope.remote);
     $scope.equipment.$id = $routeParams.equipId;
@@ -127,7 +127,7 @@ function ExerciseCreateCtrl($scope, $location, $timeout, Exercises, Equipment) {
 }
 
 function ExerciseEditCtrl($scope, $location, $routeParams, angularFire, fbURL, Equipment) {
-  angularFire(fbURL + 'exercises/' + $routeParams.exerciseId, $scope, 'remote', {}).
+  angularFire(new Firebase(fbURL + 'exercises/' + $routeParams.exerciseId), $scope, 'remote', {}).
   then(function() {
     $scope.equipment = Equipment;
     //console.log($scope.equipment);
@@ -163,7 +163,7 @@ function WorkoutsCreateCtrl($scope, $location, $timeout, Workouts) {
 }
 
 function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL, Exercises) {
-  angularFire(fbURL + 'workouts/' + $routeParams.workoutsId, $scope, 'remote', {}).
+  angularFire(new Firebase(fbURL + 'workouts/' + $routeParams.workoutsId), $scope, 'remote', {}).
   then(function() {
     $scope.exercises = Exercises
     $scope.workouts = angular.copy($scope.remote);
@@ -206,37 +206,145 @@ function WorkoutsEditCtrl($scope, $location, $routeParams, angularFire, fbURL, E
 }
 
 
+function UsersEditCtrl($scope, $location, $routeParams, angularFire, fbURL, Workouts) {
+  if($scope.user === null) {
+    console.log("no user found, not logged in?");
+  }
+  else {
+    var theid= '1585353979'; 
+    //console.log($scope.user.id);
+    angularFire(new Firebase(fbURL + 'users/' + theid), $scope, 'remote', {}).
+    then(function() {
+      $scope.userprofile = angular.copy($scope.remote);
+      $scope.userprofile.$id = theid;
+      $scope.save = function() {
+        $scope.remote = angular.copy($scope.userprofile);
+      };
+      $scope.saveAndWorkout = function(workoutId) {
+        $scope.remote = angular.copy($scope.userprofile);
+        $location.path('/workout/' + theid + '/' + workoutId); 
+      };
+      $scope.workouts = Workouts;
+    });
+  }
+} 
 
-//temporarily hardcode the user id, wire up to auth later
-//function UsersEditCtrl($scope, $location, angularFire, fbURL) {
-function UsersEditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-//   angularFire(fbURL + 'users/' + $routeParams.userId, $scope, 'remote', {}).
-  angularFire(fbURL + 'users/1', $scope, 'remote', {}).
-  then(function() {
-    $scope.user = angular.copy($scope.remote);
-    $scope.user.$id = 1;
-//     $scope.user.$id = $routeParams.userId;
-    $scope.save = function() {
-      $scope.remote = angular.copy($scope.user);
-    };
-    $scope.saveAndWorkout = function() {
-      $scope.remote = angular.copy($scope.user);
-      $location.path('/workout'); 
-    };
+
+function UserLoginCtrl($scope, $location, $routeParams, angularFire, angularFireAuth, fbURL, Workouts) {
+  var url = fbURL;
+  angularFireAuth.initialize(new Firebase(url), {scope: $scope, name: "user"});
+  //var ref = new Firebase(url);
+  //$scope.users = angularFireCollection(ref);
+  console.log("in controller");
+  $scope.login = function() {
+    console.log("trying login");
+    angularFireAuth.login("facebook");
+  }
+  $scope.logout = function() {
+    angularFireAuth.logout();
+  }
+  $scope.$on("angularFireAuth:login", function(evt, user) {
+    console.log("user logged in");
   });
-}
+  $scope.$on("angularFireAuth:logout", function(evt) {
+    console.log("User logged out.");
+  });
+  $scope.$on("angularFireAuth:error", function(evt, err) {
+    console.log("There was an error during authentication. " + err)
+  });
 
-function DoWorkoutCtrl($scope, $location, angularFire, fbURL) {
-  angularFire(fbURL + 'users/1', $scope, 'remote', {}).
+//   angularFire(new Firebase(fbURL + 'users/1'), $scope, 'remote', {}).
+//   then(function() {
+//     $scope.user = angular.copy($scope.remote);
+//     $scope.user.$id = 1;
+// //     $scope.user.$id = $routeParams.userId;
+//     $scope.save = function() {
+//       $scope.remote = angular.copy($scope.user);
+//     };
+//     $scope.saveAndWorkout = function(workoutId) {
+//       $scope.remote = angular.copy($scope.user);
+//       //$location.path('/workout/' + $routeParams.userId + '/' + workoutId); 
+//       $location.path('/workout/1/' + workoutId); 
+//     };
+//     $scope.workouts = Workouts;
+//   });
+} 
+
+function WorkoutLogCtrl($scope, $location, $routeParams, angularFireCollection, angularFire, fbURL, Exercises) {
+  angularFire(new Firebase(fbURL + 'workoutlog/'+ $routeParams.userId), $scope, 'remote', {}).
   then(function() {
-    $scope.user = angular.copy($scope.remote);
-    $scope.user.$id = 1;
+    //$scope.routine={"yi":2};
+    $scope.workoutlog = angular.copy($scope.remote);
+    //var blah = angularFireCollection(fbURL + 'workoutlog/'+ $routeParams.userId + '/-J1CYPqG4EHFBKon5hGE');
+
+//get workout
+    $scope.workoutId = $routeParams.workoutId;
+
+
+    $scope.workout = angularFireCollection(new Firebase(fbURL + 'workouts/' + $routeParams.workoutId), function () {
+      $scope.loaded = true;
+      console.log("LOADED!");
+      console.log($scope.workout.routine);
+    });
+
+
+    // if(typeof $scope.workout.routine === 'undefined') {
+    //   $scope.workout.routine = {"-J1664j1nLSnsoIi4K6S":true};
+    //   console.log('routine is null');
+    // }
+
+    // $scope.workout.on('value', function(snapshot) {
+    //   if(snapshot.val() === null) {
+    //     alert('Workout does not exist.');
+    //   } else {
+    //     console.log("start===");
+    //     console.log(snapshot.val());
+    //     var workoutName = snapshot.val().name;
+    //     $scope.routine = snapshot.val().routine;
+    //     console.log("end====");
+    //   }
+    // });
+
+
+
+    //$scope.workouts.routine = {"-J1664j1nLSnsoIi4K6S":true,"-J11F9TwX4-KW2l_oxN4":true, "-J1CXxf0LvtIiOEnuYbS":true};
+    
+    console.log($scope.workout);
+
+//loop thorugh each past exercise for this user, get last rep/weight
+    $scope.exData = [];
+
+    for (var exercise in $scope.workoutlog) {
+      var a = new Firebase(fbURL + 'workoutlog/'+ $routeParams.userId + '/' + exercise).limit(1);
+      a.on('child_added', function(ex) {
+        $scope.exData.push(ex.val());
+        console.log($scope.exData)
+      });
+    }
+
+
+    $scope.exercises = Exercises;
+
+
+    //{ id:'-J11F9TwX4-KW2l_oxN4', exerciseId:'-J11F9TwX4-KW2l_oxN4', date:'2013-08-30', weight:'50', reps:'10' }
+
+    // load past workout history to get last rep/weight; if none, assume 0
+
+    // filter workout list to show only this workout's exercises
+
+    // add save method to persist each completed exercise
+
+    
     $scope.save = function() {
-      $scope.remote = angular.copy($scope.user);
+      $scope.remote = angular.copy($scope.workoutlog);
     };
     $scope.getDate = function() {
       return Date.now(); 
     };
+    $scope.finishWorkout = function() {
+      return null;
+    };
+
   });
 }
 // function AuthCtrl($scope, $location, angularFire, fbURL) {

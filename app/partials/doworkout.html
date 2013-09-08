@@ -1,6 +1,56 @@
 <div>
 Start: {{ getDate() | date:'short' }}
 </div>
+<!--
+  <div class="btn-group">
+    <table><tr ng-repeat="e in exercises | orderBy:'name'">
+      <td class="button-spaced">
+        <button type="button" class="btn btn-lg btn-primary width-200px" ng-model="ex" ng-click="test(e.$id);" btn-checkbox> {{e.name}} </button>
+      </td></tr>
+    </table>
+  </div>
+-->
+<!--
+<div>
+ <accordion close-others="true">
+ 	<accordion-group heading="Static Header">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{e.name}}" ng-repeat="e in exercises | orderBy:'name'">
+      content
+    </accordion-group>
+</accordion>
+</div>
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Collapsible Group Item #1
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        content	
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<pre>{{exData}}</pre>
+<pre>{{workout}}</pre>
+
+  <ul class="nav nav-pills nav-stacked">
+	<li ng-repeat="e in exercises | filter:'onlyActive' | orderBy:'name'">
+	  <a href="#">
+	      <span class="glyphicon glyphicon-minus pull-right"></span>  <span class="badge pull-right">42</span>  <span class="glyphicon glyphicon-plus pull-right"></span> 
+	      {{e.name}}
+	  </a>
+	</li>
+  </ul>
+
 <div>
   <button class="btn btn-medium btn-success" type="button" ng-click="finishWorkout()">I Tired</button>
 </div>

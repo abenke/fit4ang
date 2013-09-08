@@ -1,21 +1,37 @@
 <form role="form" class="form-horizontal">
 	<div class="form-group">
-	  <label class="col-lg-2 control-label">Locker:</label>
-	  <div class="col-lg-10">
-	  	<input class="input-lg form-control" type="text" name="locker" ng-model="user.locker">
+	  <label class="col-sm-2 control-label">Locker:</label>
+	  <div class="col-sm-10">
+	  	<input class="input-lg form-control" type="text" name="locker" ng-model="userprofile.locker">
 		</div>
 	</div>
+	<!--
 	<div class="form-group">
-	  <label class="col-lg-2 control-label">Select Workout:</label>
-	  <div class="col-lg-10">
-		  <select ng-controller="WorkoutsViewCtrl" class="form-control" ng-model="workouts" ng-options="item.$id as item.name for item in workouts | orderBy:'name'"></select>
+	  <label class="col-sm-2 control-label">Select Workout:</label>
+	  <div class="col-sm-10">
+		  <select class="form-control" ng-model="workoutId" ng-options="item.$id as item.name for item in workouts | orderBy:'name'"></select>
 		</div>
 	</div>
+	-->
+	<pre>{{user.name}}</pre>
 	<div class="form-group">
-		<div class="col-lg-offset-2 col-lg-10">
+	  <div class="col-lg-offset-2 col-sm-10">
+		  <div class="btn-group">
+		    <table><tr ng-repeat="e in workouts | orderBy:'name'">
+		      <td class="button-spaced">
+		        <button type="button" class="btn btn-lg btn-primary width-200px" ng-model="workoutId" ng-click="saveAndWorkout(e.$id);" btn-checkbox>{{e.name}} </button>
+		      </td></tr>
+		    </table>
+	  </div>
+	</div>
+
+<!--
+	<div class="form-group">
+		<div class="col-lg-offset-2 col-sm-10">
 			<button class="btn btn-primary btn-lg" type="button" ng-click="saveAndWorkout()">I Workout</button>
 		</div>
 	</div>
+-->
 </form>
 
 

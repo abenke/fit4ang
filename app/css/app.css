@@ -1,5 +1,6 @@
 /* app css stylesheet */
-body { padding-top: 80px; }
+
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
 
 .menu {
   list-style: none;
@@ -37,4 +38,13 @@ body { padding-top: 80px; }
 
 td.button-spaced{
   padding:2px
+}
+
+.dropdown-backdrop {
+    position: static;
+}
+
+.container {
+  padding-right: 0;
+  padding-left: :0;
 }
